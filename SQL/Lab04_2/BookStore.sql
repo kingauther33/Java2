@@ -107,16 +107,16 @@ insert into customers values (null, 'Dinh Tien An', '100 Hang Dau', 1, '1999-11-
                              (null, 'Tran Duc Anh', '100 Hang Ma', 0, '1991-10-15', 2, default, default);
 select * from customers;
 
-insert into orders values (null, 1, '2020-10-5', '2020-10-10', 1, 500000, 10),
+insert into orders values (null, 1, '2020-10-5', '2020-10-10', 2, 500000, 10),
                           (null, 1, '2020-10-12', '2020-10-14', 1, 300000, 10),
                           (null, 2, '2020-10-6', '2020-10-10', 1, 350000, 10),
-                          (null, 3, '2020-10-7', '2020-10-10', 1, 200000, 10),
-                          (null, 5, '2020-10-3', '2020-10-10', 1, 900000, 10),
+                          (null, 3, '2020-10-7', '2020-10-10', 3, 200000, 10),
+                          (null, 5, '2020-10-3', '2020-10-10', 4, 900000, 10),
                           (null, 5, '2020-10-4', '2020-10-10', 1, 800000, 10),
-                          (null, 5, '2020-9-1', '2020-9-5', 1, 150000, 8),
-                          (null, 6, '2020-9-12', '2020-9-13', 1, 600000, 8),
-                          (null, 6, '2020-9-14', '2020-9-15', 1, 700000, 8),
-                          (null, 6, '2020-9-12', '2020-9-15', 1, 800000, 8);
+                          (null, 5, '2020-9-1', '2020-9-5', 5, 150000, 8),
+                          (null, 6, '2020-9-12', '2020-9-13', 5, 600000, 8),
+                          (null, 6, '2020-9-14', '2020-9-15', 0, 700000, 8),
+                          (null, 6, '2020-9-12', '2020-9-15', 0, 800000, 8);
 select * from orders;
 
 insert into ordersDetails values (1, 1, 100000, 2, default, default),
@@ -168,3 +168,21 @@ select * from ordersDetails;
     /*select * from books
         where BookId = ... (ID cua cuon sach nguoi dung nhap vao)*/
 
+# Tim 10 orders moi tiep nhan ( status 1)
+    select * from orders
+        where status = 1
+        order by dateOrdered desc limit 10;
+
+# Hien thi don hang theo ma KH
+    /*select * from orders
+        where CustomerID = ... (ID khach hang nguoi dung nhap vao)*/
+
+# Hien thi trang thai don hang theo ma don hang
+    /*select orderID, status from orders
+        where orderID = ... (ID don hang nguoi dung nhap vao)*/
+
+# Hien thi thong tin chi tiet don hang theo ma don duoc nhap vao
+    select * from orders
+        where orderID = ... (ID don hang nguoi dung nhap vao)
+select * from orders;
+select * from ordersDetails;
