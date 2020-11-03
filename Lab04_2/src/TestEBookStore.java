@@ -1,15 +1,22 @@
-import java.sql.*;
+import java.util.Scanner;
 
 public class TestEBookStore {
     public static void main(String[] args) {
-        try (
-                Connection conn = DriverManager.getConnection("jbdc:mysql//localhost:3306/ebookstore", "root", "");
-                Statement stmt = conn.createStatement();
-        ) {
-            String strSelectTop10 = "select * from books " +
-                    "order by createdDate desc limit 2";
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        Scanner sc = new Scanner(System.in);
+        Menu m1 = new Menu();
+        m1.displayMenu();
+        int choice;
+        do {
+            System.out.print("Choose your action (13 to return to menu): ");
+            choice = Integer.parseInt(sc.nextLine());
+            switch (choice) {
+                case 1:
+                    m1.menu1();
+                    break;
+                default:
+                    break;
+            }
+            System.out.println();
+        } while (choice != 14);
     }
 }
