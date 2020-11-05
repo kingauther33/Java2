@@ -169,9 +169,9 @@ select * from ordersDetails;
         where BookId = ... (ID cua cuon sach nguoi dung nhap vao)*/
 
 # Tim 10 orders moi tiep nhan ( status 1)
-    select * from orders
+    /*select * from orders
         where status = 1
-        order by dateOrdered desc limit 10;
+        order by dateOrdered desc limit 10;*/
 
 # Hien thi don hang theo ma KH
     /*select * from orders
@@ -182,7 +182,5 @@ select * from ordersDetails;
         where orderID = ... (ID don hang nguoi dung nhap vao)*/
 
 # Hien thi thong tin chi tiet don hang theo ma don duoc nhap vao
-    select * from orders
-        where orderID = ... (ID don hang nguoi dung nhap vao)
-select * from orders;
-select * from ordersDetails;
+    /*select * from orders
+        where orderID = ... (ID don hang nguoi dung nhap vao)*/
