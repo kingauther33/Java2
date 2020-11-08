@@ -57,13 +57,11 @@ public class Menu {
     }
 
     public void menu1() {
-        Connection con = getConnection();
-        Statement st;
-        ResultSet rs;
-
-        try {
-            st = con.createStatement();
-            rs = st.executeQuery("select * from books" +
+        try (
+                Connection con = getConnection();
+                Statement st = con.createStatement()
+        ) {
+            ResultSet rs = st.executeQuery("select * from books" +
                     " order by year desc limit 10;");
             System.out.println("The records for displaying top 10 newest books are: \n");
             System.out.println(padRight("BoodID", 10) +

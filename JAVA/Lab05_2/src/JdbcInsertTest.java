@@ -7,10 +7,10 @@ public class JdbcInsertTest {
             Statement st = con.createStatement()
         ) {
             // DELETE records with bookID >= 5 and bookID < 7
-            String sqlDelete = "delete from books where bookID >= 5 and bookID < 100";
-            System.out.println("The SQL statement is: " + sqlDelete);
-            int countDeleted = st.executeUpdate(sqlDelete);
-            System.out.println(countDeleted + " records deleted.\n");
+//            String sqlDelete = "delete from books where bookID >= 5 and bookID < 100";
+//            System.out.println("The SQL statement is: " + sqlDelete);
+//            int countDeleted = st.executeUpdate(sqlDelete);
+//            System.out.println(countDeleted + " records deleted.\n");
 
             // INSERT a record
             String sqlInsert = "insert into books values (null, 1, 'The Dog Running', 120000, 1, 2019, default, default, 20)";
@@ -35,7 +35,7 @@ public class JdbcInsertTest {
 
             // Print column class names
             for (int i = 1; i <= numColumns; i++) {
-                System.out.printf("%-30s", rset.getString(i));
+                System.out.printf("%-30s", rsetMD.getColumnName(i));
             }
             System.out.println();
 

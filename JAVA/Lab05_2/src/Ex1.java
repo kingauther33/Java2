@@ -6,7 +6,7 @@ public class Ex1 {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookshop" , "root", "");
                 Statement st = con.createStatement()
         ) {
-            String sqlDelete = "delete from"
+            String sqlDelete = "delete from";
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
