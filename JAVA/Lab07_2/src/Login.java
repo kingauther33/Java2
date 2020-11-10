@@ -6,9 +6,10 @@ public class Login {
     Scanner sc = new Scanner(System.in);
 
     public void register() {
-        System.out.print("Please enter user username: ");
+        model = new UserModel();
+        System.out.print("Please enter new username: ");
         model.setUserName(sc.nextLine());
-        System.out.print("Please enter user password: ");
+        System.out.print("Please enter new user password: ");
         model.setUserPassword(sc.nextLine());
         System.out.print("Enter role of User: ");
         int role = Integer.parseInt(sc.nextLine());
@@ -16,13 +17,13 @@ public class Login {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
                 Statement st = con.createStatement()
         ) {
-            String strInsert = "insert into users values (null, '" + model.getUserName() + "', '" + model.getUserPassword() + "'', " + role + ")";
-            System.out.println("The SQL Statement is: " + strInsert);
+            String strInsert = "insert into users values (null, '" + model.getUserName() + "', '" + model.getUserPassword() + "', " + role + ")";
+            System.out.println("\nThe SQL Statement is: " + strInsert);
             int numUpdateCount = st.executeUpdate(strInsert);
             System.out.println(numUpdateCount + " records inserted");
 
             String strCheckInsert = "select * from users";
-            System.out.println("The SQL statement is: " + strCheckInsert);
+            System.out.println("\nThe SQL statement is: " + strCheckInsert);
             BooksManagement.showEdit(st, strCheckInsert);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -30,30 +31,31 @@ public class Login {
     }
 
     public void login() {
+        model = new UserModel();
         try (
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
                 Statement st = con.createStatement()
         ) {
-            boolean again = true;
+            boolean again;
             do {
-                System.out.print("Please enter user username: ");
+                System.out.print("Please enter username: ");
                 model.setUserName(sc.nextLine());
                 System.out.print("Please enter user password: ");
                 model.setUserPassword(sc.nextLine());
                 String strLogin = "select count(1) from users\n" +
                         "    where username = '" + model.getUserName() + "' and password = '" + model.getUserPassword() + "';";
-                System.out.println("The SQL Statement Is: " + strLogin);
+                System.out.println("The SQL Statement is: " + strLogin);
                 ResultSet rs = st.executeQuery(strLogin);
-                ResultSetMetaData rsMD = rs.getMetaData();
-                int numColumns = rsMD.getColumnCount();
 
-                if (numColumns == 1) {
+                rs.next();
+                if (rs.getInt("count(1)") == 1) {
                     System.out.println("Login Successfully");
                     again = true;
                 } else {
                     System.out.println("You have failed logging in, please try again :(");
                     again = false;
                 }
+                System.out.println();
             } while (!again);
         } catch (SQLException ex) {
             ex.printStackTrace();

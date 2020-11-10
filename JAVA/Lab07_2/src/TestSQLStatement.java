@@ -2,15 +2,15 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class TestSQLStatement {
-    private BooksModel model = new BooksModel();
     private static Scanner sc = new Scanner(System.in);
+    private static UserModel model;
+
 
     static void showEdit(Statement st, String strShowEdit) throws SQLException {
         ResultSet rs = st.executeQuery(strShowEdit);
         ResultSetMetaData rsMD = rs.getMetaData();
 
         int numCols = rsMD.getColumnCount();
-        rs.next();
         for (int i=1; i<=numCols; i++) {
             System.out.printf("%-30s", rsMD.getColumnName(i));
         }
@@ -25,27 +25,32 @@ public class TestSQLStatement {
     }
 
     public static void main(String[] args) {
+        model = new UserModel();
         try (
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
                 Statement st = con.createStatement()
         ) {
-            String strShowEdit = "select * from books";
-            showEdit(st, strShowEdit);
-            System.out.print("Please enter the id of the book you want to delete: ");
-            int delID = Integer.parseInt(sc.nextLine());
-            String strSelectAll = "select * from ordersdetails;";
-            ResultSet rsAll = st.executeQuery(strSelectAll);
-            rsAll.next();
-            if (delID == rsAll.getInt("bookID")) {
-                System.out.println("You cannot delete this book!!!");
-            } else {
-                String strDel = "delete from books\n" +
-                        "    where bookID = " + delID + ";";
-                System.out.println("The SQL Del Statement is: " + strDel);
-                int numDels = st.executeUpdate(strDel);
-                System.out.println(numDels + " records affected.");
-                showEdit(st, strShowEdit);
-            }
+            boolean again;
+            do {
+                System.out.print("Please enter username: ");
+                model.setUserName(sc.nextLine());
+                System.out.print("Please enter user password: ");
+                model.setUserPassword(sc.nextLine());
+                String strLogin = "select count(1) from users\n" +
+                        "    where username = '" + model.getUserName() + "' and password = '" + model.getUserPassword() + "';";
+                System.out.println("The SQL Statement is: " + strLogin);
+                ResultSet rs = st.executeQuery(strLogin);
+
+                rs.next();
+                if (rs.getInt("count(1)") == 1) {
+                    System.out.println("Login Successfully");
+                    again = true;
+                } else {
+                    System.out.println("You have failed logging in, please try again :(");
+                    again = false;
+                }
+                System.out.println();
+            } while (!again);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

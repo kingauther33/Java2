@@ -16,7 +16,7 @@ create table books(
     CatID int,
     Name nvarchar(100),
     Price float,
-    status tinyint,  /*dang ban 1, sap ve 2, da het hang 3*/
+    status tinyint check ( status regexp '^[1-3]$'),  /*dang ban 1, sap ve 2, da het hang 3*/
     year int,
     createdDate datetime default current_timestamp,
     updatedDate datetime default current_timestamp on update current_timestamp,
@@ -29,9 +29,9 @@ create table customers(
     CustomerID int primary key auto_increment,
     Name nvarchar(50),
     Address nvarchar(50),
-    Gender tinyint(1), # 1 : male, 0 : female
+    Gender tinyint(1) check ( Gender regexp '^[0-1]$'), # 1 : male, 0 : female
     DOB date,
-    level tinyint(1), /* 1 vjp1, 2 vjp2 , 3 richvjp */
+    level tinyint(1) check ( level regexp '^[1-3]$'), /* 1 vjp1, 2 vjp2 , 3 richvjp */
     createdDate datetime default current_timestamp,
     updatedDate datetime default current_timestamp on update current_timestamp
 );
