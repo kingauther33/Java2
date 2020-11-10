@@ -2,33 +2,50 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class TestSQLStatement {
-    public static Scanner sc = new Scanner(System.in);
+    private BooksModel model = new BooksModel();
+    private static Scanner sc = new Scanner(System.in);
+
+    static void showEdit(Statement st, String strShowEdit) throws SQLException {
+        ResultSet rs = st.executeQuery(strShowEdit);
+        ResultSetMetaData rsMD = rs.getMetaData();
+
+        int numCols = rsMD.getColumnCount();
+        rs.next();
+        for (int i=1; i<=numCols; i++) {
+            System.out.printf("%-30s", rsMD.getColumnName(i));
+        }
+        System.out.println();
+
+        while (rs.next()) {
+            for (int i=1; i<=numCols; i++) {
+                System.out.printf("%-30s", rs.getString(i));
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
         try (
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
                 Statement st = con.createStatement()
         ) {
-            boolean again = true;
-            do {
-                System.out.println("Please enter your username: ");
-                String userName = sc.nextLine();
-                System.out.println("Please enter user password: ");
-                String password = sc.nextLine();
-                String strLogin = "select count(1) from users\n" +
-                        "    where username = '" + userName + "' and password = '" + password + "';";
-                System.out.println("The SQL Statement Is: " + strLogin);
-                ResultSet rs = st.executeQuery(strLogin);
-                ResultSetMetaData rsMD = rs.getMetaData();
-                int numColumns = rsMD.getColumnCount();
-
-                if (numColumns == 1) {
-                    System.out.println("Login Successfully");
-                    again = true;
-                } else {
-                    System.out.println("You have failed logging in, please try again :(");
-                    again = false;
-                }
-            } while (!again);
+            String strShowEdit = "select * from books";
+            showEdit(st, strShowEdit);
+            System.out.print("Please enter the id of the book you want to delete: ");
+            int delID = Integer.parseInt(sc.nextLine());
+            String strSelectAll = "select * from ordersdetails;";
+            ResultSet rsAll = st.executeQuery(strSelectAll);
+            rsAll.next();
+            if (delID == rsAll.getInt("bookID")) {
+                System.out.println("You cannot delete this book!!!");
+            } else {
+                String strDel = "delete from books\n" +
+                        "    where bookID = " + delID + ";";
+                System.out.println("The SQL Del Statement is: " + strDel);
+                int numDels = st.executeUpdate(strDel);
+                System.out.println(numDels + " records affected.");
+                showEdit(st, strShowEdit);
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
