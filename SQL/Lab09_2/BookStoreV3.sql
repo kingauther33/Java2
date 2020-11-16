@@ -176,7 +176,9 @@ insert into orders(CustomerID, status, total) values  (0, 1, 300000);
 
 select * from users where username = 'ilovekimchi';
 
-
+select * from users;
+select count(2) from users
+    where username = 'ilovekimchi';
 
 select * from ordersDetails
     inner join orders o on ordersDetails.orderID = o.orderID
