@@ -3,6 +3,7 @@ package BtapChua.Views;
 import BtapChua.Models.*;
 import BtapChua.Controllers.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EBookView {
@@ -14,6 +15,9 @@ public class EBookView {
         BooksController books = new BooksController();
         CustomersController customers = new CustomersController();
         EBookView eBookView = new EBookView();
+        ArrayList<Books> myArr = new ArrayList<>();
+        CartController cartController = new CartController();
+
         int menuChoice;
 
         System.out.println("Welcome to E-Book Online ^.^");
@@ -95,6 +99,35 @@ public class EBookView {
                         }
                     } while (menuChoice != 9 && menuChoice != 8);
                     break;
+                case 4:
+                    do {
+                        menuChoice = eBookView.menuCarts();
+                        switch (menuChoice) {
+                            case 1:
+                                cartController.showBooks();
+                                break;
+                            case 2:
+                                cartController.addCarts(myArr);
+                                break;
+                            case 3:
+                                cartController.checkOut(myArr);
+                                break;
+                            case 4:
+                                cartController.showBills(myArr);
+                                System.out.println("---------------------------\n");
+                                System.out.println("Hope to see you soon! Goodbye ^_^");
+                                break;
+                            case 8:
+                                menuChoice = 8;
+                                break;
+                            case 9:
+                                menuChoice = 9;
+                                break;
+                            default:
+                                System.out.println("Invalid input... Please try again");
+                        }
+                    } while (menuChoice != 9 && menuChoice != 8);
+                    break;
                 case 9:
                     menuChoice = 9;
                     break;
@@ -112,6 +145,7 @@ public class EBookView {
         System.out.println("1. Open Users Menu");
         System.out.println("2. Open Books Menu");
         System.out.println("3. Open Customers Menu");
+        System.out.println("4. Open Carts Menu");
         System.out.println("9. Exit Program");
         System.out.print("Please select your action: ");
         choice = Integer.parseInt(sc.nextLine());
@@ -163,5 +197,20 @@ public class EBookView {
         choice = Integer.parseInt(sc.nextLine());
         System.out.println();
         return choice;
+    }
+
+    public int menuCarts() {
+        System.out.println("==========================");
+        System.out.println("Menu: ");
+        System.out.println("1. Show Books");
+        System.out.println("2. Add to Cart");
+        System.out.println("3. Checkout");
+        System.out.println("4. Show Bills");
+        System.out.println("8. Comeback to main menu");
+        System.out.println("9. Exit Program");
+        System.out.print("Please choose your action: ");
+        int cartChoice = Integer.parseInt(sc.nextLine());
+        System.out.println();
+        return cartChoice;
     }
 }

@@ -53,8 +53,6 @@ public class CartController {
                     if ((rs.getInt("BookId") == cartBookID) && (rs.getInt("qty") > qtyBuy && rs.getInt("status") != 3 )) {
                         myArr.add(new Books(rs.getInt("BookId"), rs.getString("Name"),
                                 rs.getDouble("Price"), qtyBuy));
-                        String strUpdateQty = "update books set qty = qty - " + qtyBuy + " where BookId = " + cartBookID + ";";
-                        st.executeUpdate(strUpdateQty);
 
                         checkBook = true;
                     } else if (rs.getInt("BookId") != cartBookID) {
@@ -93,7 +91,7 @@ public class CartController {
                 con.commit();
                 for (Books Books : myArr) {
                     String updateQty = "update books\n" +
-                            "    set qty = " + Books.getQty() + " - 1\n" +
+                            "    set qty = qty - " + Books.getQty() + "\n" +
                             "    where BookId = " + Books.getBookID() + ";";
                     st.executeUpdate(updateQty);
                 }
