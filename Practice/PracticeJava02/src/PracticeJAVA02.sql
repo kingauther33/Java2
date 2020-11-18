@@ -16,6 +16,3 @@ insert into Student values ('B010110', 'Nguyen Tuan Anh', 'Ha Noi', '0904818238'
 
 select * from Student;
 
-insert into Student values ()
-
-

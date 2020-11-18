@@ -30,7 +30,6 @@ public class StudentView {
                     break;
                 case 4:
                     System.out.println("Exiting the program!!!");
-                    choice = 4;
                     break;
                 default:
                     System.out.println("Invalid input... Please try again :(");
