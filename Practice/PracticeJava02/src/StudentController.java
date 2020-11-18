@@ -45,7 +45,7 @@ public class StudentController {
     public void save(ArrayList<StudentModel> arr) throws SQLException{
         try (
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/practicejava02", "root", "");
-                Statement st = con.createStatement();
+                Statement st = con.createStatement()
         ) { try {
                 con.setAutoCommit(false);
                 con.commit();
@@ -57,6 +57,8 @@ public class StudentController {
                     System.out.println("The SQL Insert Statement is: " + strUpdate);
                     if (st.executeUpdate(strUpdate) > 0) checkUpdate++;
                 }
+                con.commit();
+
                 System.out.println("Total " + checkUpdate + " records are saved");
 
                 System.out.println("Check inserted records:");
@@ -76,7 +78,6 @@ public class StudentController {
                     }
                     System.out.println();
                 }
-                con.commit();
 
                 con.close();
                 if (con.isClosed()) {
